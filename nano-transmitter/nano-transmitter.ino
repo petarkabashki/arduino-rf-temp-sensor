@@ -50,9 +50,7 @@ void setup() {
 const char *ro = "R01";
 const char *errmsg = sprintf("%s:ERROR", ro);
 
-void loop() {
-  // Delay between measurements.
-  delay(delayMS);
+void readAndSend() {
   // Get temperature event and print its value.
   sensors_event_t event;
   
@@ -90,4 +88,11 @@ void loop() {
     driver.send((uint8_t *)msg, 8);
     driver.waitPacketSent();
   }
+}
+
+void loop() {
+  // Delay between measurements.
+  delay(delayMS);
+  delay(10000);
+  readAndSend();
 }
