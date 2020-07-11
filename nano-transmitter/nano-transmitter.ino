@@ -47,7 +47,7 @@ void setup() {
   delayMS = sensor.min_delay / 1000;
 }
 
-const char *ro = "R01";
+const char *ro = "R02";
 const char *errmsg = sprintf("%s:ERROR", ro);
 
 void readAndSend() {
@@ -93,6 +93,6 @@ void readAndSend() {
 void loop() {
   // Delay between measurements.
   delay(delayMS);
-  delay(10000);
+  delay(15000);
   readAndSend();
 }
