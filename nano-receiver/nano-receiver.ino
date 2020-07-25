@@ -11,9 +11,22 @@
 #endif
 
 //RH_ASK driver;
- RH_ASK driver(2000, 4, 5, 0); // ESP8266 or ESP32: do not use pin 11 or 2
+ RH_ASK driver(2000, 8, 9, 0); // ESP8266 or ESP32: do not use pin 11 or 2
 // RH_ASK driver(2000, 3, 4, 0); // ATTiny, RX on D3 (pin 2 on attiny85) TX on D4 (pin 3 on attiny85), 
 // RH_ASK driver(2000, PD14, PD13, 0); STM32F4 Discovery: see tx and rx on Orange and Red LEDS
+
+// 
+// Nokia LCD display 5510 
+
+#include <PCD8544.h>
+//uint8_t sclk  = 3,   /* clock       (display pin 2) */
+//uint8_t sdin  = 4,   /* data-in     (display pin 3) */
+//uint8_t dc    = 5,   /* data select (display pin 4) */
+//uint8_t reset = 6,   /* reset       (display pin 8) */
+//uint8_t sce   = 7);  /* enable      (display pin 5) */
+
+
+static PCD8544 lcd;
 
 void setup()
 {
@@ -26,19 +39,37 @@ void setup()
 #else
 	;
 #endif
+  
+
+  lcd.begin(84, 48);
 }
 
+const int lcdLineLen = 15;
+
+char textbuf[7][lcdLineLen];
+
+void addLine(char* line, int buflen) {   
+  memset(textbuf[6], 0, lcdLineLen);
+  memcpy(textbuf[6], line, 8);
+
+//Serial.println("----");
+  for(int i = 0; i<6; i++) {
+    memset(textbuf[i], 0, lcdLineLen);
+    memcpy(textbuf[i], textbuf[1+i], lcdLineLen);
+//    Serial.println(textbuf[i]);
+    lcd.setCursor(0, i);
+    lcd.clearLine();
+    //char* lcdLine = textbuf[i];
+    lcd.print(textbuf[i]);
+  }
+}
 void loop()
 {
-    uint8_t buf[8];
+    uint8_t buf[20];
     uint8_t buflen = sizeof(buf);
 
     if (driver.recv(buf, &buflen)) // Non-blocking
     {
-       Serial.println((char*)buf);
-//	int i;
-
-	// Message with a good checksum received, dump it.
-	//driver.printBuffer("Got:", buf, buflen);
+      addLine((char*)buf, buflen);
     }
 }

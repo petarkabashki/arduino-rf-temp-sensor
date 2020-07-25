@@ -37,7 +37,7 @@ const char *errmsg = sprintf("%s:ERROR", ro);
 
 void readAndSend() {
   
-  char msg[10];
+  char msg[8];
   sprintf(msg, "%s:T:%02d", ro, (int)am2320.readTemperature());
   
   Serial.println("Sending:");
@@ -57,6 +57,6 @@ void readAndSend() {
 
 void loop() {
   // Delay between measurements.
-  delay(15000);
+  delay(1500);
   readAndSend();
 }
