@@ -10,8 +10,10 @@
 #include <SPI.h> // Not actually used but needed to compile
 #endif
 
+#define pinRcv 9
+#define pinTx 10
 //RH_ASK driver;
- RH_ASK driver(2000, 8, 9, 0); // ESP8266 or ESP32: do not use pin 11 or 2
+ RH_ASK driver(2400, pinRcv, pinTx, 0); // ESP8266 or ESP32: do not use pin 11 or 2
 // RH_ASK driver(2000, 3, 4, 0); // ATTiny, RX on D3 (pin 2 on attiny85) TX on D4 (pin 3 on attiny85), 
 // RH_ASK driver(2000, PD14, PD13, 0); STM32F4 Discovery: see tx and rx on Orange and Red LEDS
 
@@ -30,6 +32,8 @@ static PCD8544 lcd;
 
 void setup()
 {
+  //pinMode(8, pinRcv);
+  
 #ifdef RH_HAVE_SERIAL
     Serial.begin(9600);	  // Debugging only
 #endif
