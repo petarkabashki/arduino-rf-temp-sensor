@@ -50,7 +50,7 @@ char textbuf[7][lcdLineLen];
 
 void addLine(char* line, int buflen) {   
   memset(textbuf[6], 0, lcdLineLen);
-  memcpy(textbuf[6], line, 8);
+  memcpy(textbuf[6], line, buflen);
 
 //Serial.println("----");
   for(int i = 0; i<6; i++) {
